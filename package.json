@@ -2,6 +2,11 @@
   "name": "bookshelf",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=8",
+    "npm": ">=6",
+    "yarn": ">=1"
+  },
   "dependencies": {
     "@reach/dialog": "^0.7.0",
     "@reach/menu-button": "^0.7.0",
