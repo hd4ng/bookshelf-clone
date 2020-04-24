@@ -18,6 +18,7 @@ branches:
   only:
     - master
 script:
+  - npm i
   - npm run test
 after_success:
   - npx codecov
