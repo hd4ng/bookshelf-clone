@@ -8,12 +8,14 @@
     "@reach/dialog": "^0.10.0",
     "@reach/menu-button": "^0.10.0",
     "@reach/tooltip": "^0.10.0",
-    "@reach/visually-hidden": "^0.10.0",
+    "@reach/visually-hidden": "^0.10.1",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^10.0.3",
     "@testing-library/user-event": "^10.0.2",
+    "bootstrap": "^4.4.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0",
     "react-scripts": "^3.4.1"
   },
   "devDependencies": {
