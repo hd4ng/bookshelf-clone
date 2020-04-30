@@ -13,6 +13,14 @@ const spin = keyframes({
   "100%": { transform: "rotate(360deg)" },
 })
 
+const BookListUL = styled.ul({
+  listStyle: "none",
+  padding: "0",
+  display: "grid",
+  gridTemplateRows: "repeat(auto-fill, minmax(100px, 1fr))",
+  gridGap: "1em",
+})
+
 const Spinner = styled(FaSpinner)({
   animation: `${spin} 1s linear infinite`,
 })
@@ -41,13 +49,6 @@ const Button = styled.button(
   ({ variant = "primary" }: { variant: Variant }) => buttonVariants[variant]
 )
 
-const Input = styled.input({
-  borderRadius: "3px",
-  border: `1px solid ${colors.gray10}`,
-  background: colors.gray,
-  padding: "8px 12px",
-})
-
 const CircleButton = styled.button({
   borderRadius: "30px",
   padding: "0",
@@ -61,6 +62,13 @@ const CircleButton = styled.button({
   color: colors.text,
   border: `1px solid ${colors.gray10}`,
   cursor: "pointer",
+})
+
+const Input = styled.input({
+  borderRadius: "3px",
+  border: `1px solid ${colors.gray10}`,
+  background: colors.gray,
+  padding: "8px 12px",
 })
 
 const Dialog = styled(ReachDialog)({
@@ -80,4 +88,4 @@ const FormGroup = styled.div({
   flexDirection: "column",
 })
 
-export { Button, Input, CircleButton, Dialog, FormGroup, Spinner }
+export { Button, Input, CircleButton, Dialog, FormGroup, Spinner, BookListUL }

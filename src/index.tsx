@@ -1,12 +1,12 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
-import App from "./App"
 import * as serviceWorker from "./serviceWorker"
+import { DiscoverBooksScreen } from "discover"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DiscoverBooksScreen />
   </React.StrictMode>,
   document.getElementById("root")
 )
