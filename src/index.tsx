@@ -1,8 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
+import "./bootstrap"
 import * as serviceWorker from "./serviceWorker"
-import { DiscoverBooksScreen } from "discover"
+import { DiscoverBooksScreen } from "screens/discover"
 
 ReactDOM.render(
   <React.StrictMode>

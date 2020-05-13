@@ -3,7 +3,6 @@
 import { jsx } from "@emotion/core"
 import { useState, useEffect } from "react"
 
-import "./bootstrap"
 import Tooltip from "@reach/tooltip"
 import { FaSearch } from "react-icons/fa"
 import { Input, BookListUL, Spinner } from "components/lib"
