@@ -68,7 +68,7 @@ const DiscoverBooksScreen = () => {
 
       {isSuccess ? (
         data?.books?.length ? (
-          <BookListUL css={{ marginTop: "20" }}>
+          <BookListUL css={{ marginTop: 20 }}>
             {data.books.map((book) => (
               <li key={book.id}>
                 <BookRow key={book.id} book={book} />
