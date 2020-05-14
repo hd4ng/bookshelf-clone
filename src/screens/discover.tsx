@@ -4,21 +4,26 @@ import { jsx } from "@emotion/core"
 import { useState, useEffect } from "react"
 
 import Tooltip from "@reach/tooltip"
-import { FaSearch } from "react-icons/fa"
+import { FaSearch, FaTimes } from "react-icons/fa"
 import { Input, BookListUL, Spinner } from "components/lib"
 import { BookRow } from "components/book-row"
 import * as booksClient from "utils/books-client"
 
 import { Book } from "models/book"
+import * as colors from "styles/colors"
 
 const DiscoverBooksScreen = () => {
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle")
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle")
   const [data, setData] = useState<{ books: Book[] } | null>(null)
+  const [error, setError] = useState<Error>()
   const [query, setQuery] = useState("")
   const [queried, setQueried] = useState(false)
 
   const isLoading = status === "loading"
   const isSuccess = status === "success"
+  const isError = status === "error"
 
   useEffect(() => {
     if (!queried) {
@@ -27,10 +32,16 @@ const DiscoverBooksScreen = () => {
     setStatus("loading")
     booksClient
       .search<{ books: Book[] }>({ query })
-      .then((responseData) => {
-        setData(responseData)
-        setStatus("success")
-      })
+      .then(
+        (responseData) => {
+          setData(responseData)
+          setStatus("success")
+        },
+        (errorData) => {
+          setError(errorData)
+          setStatus("error")
+        }
+      )
   }, [queried, query])
 
   function handleSearchSubmit(event: React.FormEvent) {
@@ -63,11 +74,24 @@ const DiscoverBooksScreen = () => {
                 background: "transparent",
               }}
             >
-              {isLoading ? <Spinner /> : <FaSearch aria-label="search" />}
+              {isLoading ? (
+                <Spinner />
+              ) : isError ? (
+                <FaTimes aria-label="error" css={{ color: colors.danger }} />
+              ) : (
+                <FaSearch aria-label="search" />
+              )}
             </button>
           </label>
         </Tooltip>
       </form>
+
+      {isError ? (
+        <div css={{ color: colors.danger }}>
+          <p>There was an error:</p>
+          <pre>{error?.message}</pre>
+        </div>
+      ) : null}
 
       {isSuccess ? (
         data?.books?.length ? (

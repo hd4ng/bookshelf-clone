@@ -1,11 +1,21 @@
 function client<T>(
   endpoint: RequestInfo,
-  customConfig: RequestInit = { method: "GET" }
+  customConfig: RequestInit = {}
 ): Promise<T> {
-  return fetch(
-    `${process.env.REACT_APP_API_URL}/${endpoint}`,
-    customConfig
-  ).then((res) => res.json())
+  const config: RequestInit = {
+    method: "GET",
+    ...customConfig,
+  }
+  return fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config).then(
+    async (res) => {
+      const data = await res.json()
+      if (res.ok) {
+        return data
+      } else {
+        return Promise.reject(data)
+      }
+    }
+  )
 }
 
 export { client }
