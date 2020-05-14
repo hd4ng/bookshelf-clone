@@ -1,7 +1,6 @@
 /** @jsx jsx */
 /** @jsxFrag React.Fragment */
 import { jsx } from "@emotion/core"
-import { useState, useEffect } from "react"
 
 import Tooltip from "@reach/tooltip"
 import { FaSearch, FaTimes } from "react-icons/fa"
@@ -11,46 +10,20 @@ import * as booksClient from "utils/books-client"
 
 import { Book } from "models/book"
 import * as colors from "styles/colors"
+import { useAsync } from "utils/use-async"
 
 const DiscoverBooksScreen = () => {
-  const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle")
-  const [data, setData] = useState<{ books: Book[] } | null>(null)
-  const [error, setError] = useState<Error>()
-  const [query, setQuery] = useState("")
-  const [queried, setQueried] = useState(false)
-
-  const isLoading = status === "loading"
-  const isSuccess = status === "success"
-  const isError = status === "error"
-
-  useEffect(() => {
-    if (!queried) {
-      return
-    }
-    setStatus("loading")
-    booksClient
-      .search<{ books: Book[] }>({ query })
-      .then(
-        (responseData) => {
-          setData(responseData)
-          setStatus("success")
-        },
-        (errorData) => {
-          setError(errorData)
-          setStatus("error")
-        }
-      )
-  }, [queried, query])
+  const { data, error, isLoading, isError, isSuccess, run } = useAsync<{
+    books: Book[]
+  }>()
 
   function handleSearchSubmit(event: React.FormEvent) {
     event.preventDefault()
-    setQueried(true)
 
     const elements = (event.target as HTMLFormElement).elements
     const search = elements.namedItem("search") as HTMLInputElement
-    setQuery(search.value)
+
+    run(booksClient.search({ query: search.value }))
   }
 
   return (
