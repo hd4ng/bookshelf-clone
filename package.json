@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://bookshelf-clone.netlify.com/",
-  "engines": {
-    "node": ">=12",
-    "npm": ">=6"
-  },
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
