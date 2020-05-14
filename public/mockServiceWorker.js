@@ -7,7 +7,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-const INTEGRITY_CHECKSUM = 'dcff59cce1b1cf75d9d30c0b6a63fdba'
+const INTEGRITY_CHECKSUM = '75d7287903aaaa67d9048cf39fb65a3c'
 const bypassHeaderName = 'x-msw-bypass'
 
 let clients = {}
@@ -53,10 +53,12 @@ self.addEventListener('message', async function (event) {
     }
 
     case 'CLIENT_CLOSED': {
-      delete clients[clientId]
+      const remainingClients = allClients.filter((client) => {
+        return client.id !== clientId
+      })
 
       // Unregister itself when there are no more clients
-      if (Object.keys(clients).length === 0) {
+      if (remainingClients.length === 0) {
         self.registration.unregister()
       }
 
@@ -136,7 +138,7 @@ self.addEventListener('fetch', async function (event) {
         case 'MOCK_SUCCESS': {
           setTimeout(
             resolve.bind(this, createResponse(clientMessage)),
-            clientMessage.delay,
+            clientMessage.payload.delay,
           )
           break
         }
