@@ -1,4 +1,4 @@
-import {Users, User} from './users.api'
+import {Users, User} from 'models/user'
 
 const usersKey = '__bookshelf_users__'
 const users: Users = {}

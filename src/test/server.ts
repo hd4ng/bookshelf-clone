@@ -25,4 +25,4 @@ async function startServer() {
   })
 }
 
-window.__bookshelf_serverReady__ = startServer()
+window.__bookshelf_serverReady = startServer()
