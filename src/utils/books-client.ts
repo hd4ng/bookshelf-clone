@@ -1,7 +1,7 @@
-import { client } from "./api-client"
+import {client} from './api-client'
 
-function search<T>({ query }: { query: string }) {
+function search<T>({query}: {query: string}) {
   return client<T>(`books?query=${encodeURIComponent(query)}`)
 }
 
-export { search }
+export {search}

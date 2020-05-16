@@ -1,8 +1,8 @@
-import React from "react"
+import React from 'react'
 
-const Logo: React.FC<{ width: number; height: number }> = ({
-  width = "48",
-  height = "48",
+const Logo: React.FC<{width: number; height: number}> = ({
+  width = '48',
+  height = '48',
 }) => {
   return (
     <svg

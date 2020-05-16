@@ -1,19 +1,19 @@
 /** @jsx jsx */
 /** @jsxFrag React.Fragment */
-import { jsx } from "@emotion/core"
+import {jsx} from '@emotion/core'
 
-import Tooltip from "@reach/tooltip"
-import { FaSearch, FaTimes } from "react-icons/fa"
-import { Input, BookListUL, Spinner } from "components/lib"
-import { BookRow } from "components/book-row"
-import * as booksClient from "utils/books-client"
+import Tooltip from '@reach/tooltip'
+import {FaSearch, FaTimes} from 'react-icons/fa'
+import {Input, BookListUL, Spinner} from 'components/lib'
+import {BookRow} from 'components/book-row'
+import * as booksClient from 'utils/books-client'
 
-import { Book } from "models/book"
-import * as colors from "styles/colors"
-import { useAsync } from "utils/use-async"
+import {Book} from 'models/book'
+import * as colors from 'styles/colors'
+import {useAsync} from 'utils/use-async'
 
 const DiscoverBooksScreen = () => {
-  const { data, error, isLoading, isError, isSuccess, run } = useAsync<{
+  const {data, error, isLoading, isError, isSuccess, run} = useAsync<{
     books: Book[]
   }>()
 
@@ -21,36 +21,36 @@ const DiscoverBooksScreen = () => {
     event.preventDefault()
 
     const elements = (event.target as HTMLFormElement).elements
-    const search = elements.namedItem("search") as HTMLInputElement
+    const search = elements.namedItem('search') as HTMLInputElement
 
-    run(booksClient.search({ query: search.value }))
+    run(booksClient.search({query: search.value}))
   }
 
   return (
     <div
-      css={{ maxWidth: 800, margin: "auto", width: "90vw", padding: "40px 0" }}
+      css={{maxWidth: 800, margin: 'auto', width: '90vw', padding: '40px 0'}}
     >
       <form onSubmit={handleSearchSubmit}>
         <Input
           placeholder="Search books..."
           id="search"
-          css={{ width: "100%" }}
+          css={{width: '100%'}}
         />
         <Tooltip label="Search Books">
           <label htmlFor="search">
             <button
               type="submit"
               css={{
-                border: "0",
-                position: "relative",
-                marginLeft: "-35px",
-                background: "transparent",
+                border: '0',
+                position: 'relative',
+                marginLeft: '-35px',
+                background: 'transparent',
               }}
             >
               {isLoading ? (
                 <Spinner />
               ) : isError ? (
-                <FaTimes aria-label="error" css={{ color: colors.danger }} />
+                <FaTimes aria-label="error" css={{color: colors.danger}} />
               ) : (
                 <FaSearch aria-label="search" />
               )}
@@ -60,7 +60,7 @@ const DiscoverBooksScreen = () => {
       </form>
 
       {isError ? (
-        <div css={{ color: colors.danger }}>
+        <div css={{color: colors.danger}}>
           <p>There was an error:</p>
           <pre>{error?.message}</pre>
         </div>
@@ -68,8 +68,8 @@ const DiscoverBooksScreen = () => {
 
       {isSuccess ? (
         data?.books?.length ? (
-          <BookListUL css={{ marginTop: 20 }}>
-            {data.books.map((book) => (
+          <BookListUL css={{marginTop: 20}}>
+            {data.books.map(book => (
               <li key={book.id}>
                 <BookRow key={book.id} book={book} />
               </li>
@@ -83,4 +83,4 @@ const DiscoverBooksScreen = () => {
   )
 }
 
-export { DiscoverBooksScreen }
+export {DiscoverBooksScreen}

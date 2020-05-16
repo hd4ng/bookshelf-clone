@@ -1,25 +1,25 @@
 /**@jsx jsx */
 /**@jsxFrag React.Fragment */
-import { jsx, Global } from "@emotion/core"
+import {jsx, Global} from '@emotion/core'
 
-import React from "react"
-import ReactDOM from "react-dom"
-import { FaTools } from "react-icons/fa"
-import { Tooltip } from "@reach/tooltip"
-import * as reactQuery from "react-query"
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {FaTools} from 'react-icons/fa'
+import {Tooltip} from '@reach/tooltip'
+import * as reactQuery from 'react-query'
 
 // pulling the development thing directly because I'm not worried about
 // bundle size since this won't be loaded in prod unless the query string/localStorage key is set
-import { ReactQueryDevtoolsPanel } from "react-query-devtools"
+import {ReactQueryDevtoolsPanel} from 'react-query-devtools'
 function install() {
   // add some things to window to make it easier to debug
   window.reactQuery = reactQuery
 
   // @ts-ignore
   const requireDevToolsLocal = require.context(
-    "./",
+    './',
     false,
-    /dev-tools\.local\.js/
+    /dev-tools\.local\.js/,
   )
   const local = requireDevToolsLocal.keys()[0]
   if (local) {
@@ -35,22 +35,22 @@ function install() {
     const show = persist || hovering
 
     function toggleShow() {
-      setPersist((v) => !v)
+      setPersist(v => !v)
     }
 
     React.useEffect(() => {
       function updateHoverState(event: any) {
         setHovering(rootRef.current?.contains(event.target) ?? false)
       }
-      document.body.addEventListener("mousemove", updateHoverState)
+      document.body.addEventListener('mousemove', updateHoverState)
       return () =>
-        document.body.removeEventListener("mousemove", updateHoverState)
+        document.body.removeEventListener('mousemove', updateHoverState)
     }, [])
 
     return (
       <div
         css={{
-          position: "fixed",
+          position: 'fixed',
           bottom: 0,
           left: 0,
           right: 0,
@@ -60,31 +60,31 @@ function install() {
           ref={rootRef}
           css={[
             {
-              background: "black",
+              background: 'black',
               opacity: 0,
-              color: "white",
+              color: 'white',
               padding: 20,
               height: 60,
-              width: "100%",
-              transition: "all 0.3s",
-              overflow: "auto",
+              width: '100%',
+              transition: 'all 0.3s',
+              overflow: 'auto',
             },
-            show ? { height: "50vh", width: "100%", opacity: 1 } : null,
+            show ? {height: '50vh', width: '100%', opacity: 1} : null,
           ]}
         >
           <Tooltip label="Toggle Persist DevTools">
             <button
               css={{
-                color: "white",
-                fontSize: "1.2rem",
-                border: "none",
-                background: "none",
+                color: 'white',
+                fontSize: '1.2rem',
+                border: 'none',
+                background: 'none',
                 marginBottom: 10,
               }}
               onClick={toggleShow}
             >
-              <FaTools />{" "}
-              <span css={{ fontWeight: persist ? "bold" : "normal" }}>
+              <FaTools />{' '}
+              <span css={{fontWeight: persist ? 'bold' : 'normal'}}>
                 Bookshelf DevTools
               </span>
             </button>
@@ -102,15 +102,13 @@ function install() {
             </div>
           ) : null}
         </div>
-        {show ? (
-          <Global styles={{ "#root": { marginBottom: "50vh" } }} />
-        ) : null}
+        {show ? <Global styles={{'#root': {marginBottom: '50vh'}}} /> : null}
       </div>
     )
   }
 
   // add dev tools UI to the page
-  const devToolsRoot = document.createElement("div")
+  const devToolsRoot = document.createElement('div')
   document.body.appendChild(devToolsRoot)
   ReactDOM.render(<DevTools />, devToolsRoot)
 }
@@ -126,8 +124,8 @@ function ClearLocalStorage(): React.ReactElement {
 
 function FailureRate(): React.ReactElement {
   const [failureRate, setFailureRate] = useLocalStorageState(
-    "__bookshelf_failure_rate__",
-    0
+    '__bookshelf_failure_rate__',
+    0,
   )
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -138,7 +136,7 @@ function FailureRate(): React.ReactElement {
     <div>
       <label htmlFor="failureRate">Request Failure Percentage: </label>
       <input
-        css={{ marginLeft: 6 }}
+        css={{marginLeft: 6}}
         value={failureRate * 100}
         type="number"
         min="0"
@@ -153,8 +151,8 @@ function FailureRate(): React.ReactElement {
 
 function EnableDevTools(): React.ReactElement {
   const [enableDevTools, setEnableDevTools] = useLocalStorageState(
-    "dev-tools",
-    process.env.NODE_ENV === "development"
+    'dev-tools',
+    process.env.NODE_ENV === 'development',
   )
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -164,7 +162,7 @@ function EnableDevTools(): React.ReactElement {
   return (
     <div>
       <input
-        css={{ marginRight: 6 }}
+        css={{marginRight: 6}}
         checked={enableDevTools}
         type="checkbox"
         onChange={handleChange}
@@ -177,8 +175,8 @@ function EnableDevTools(): React.ReactElement {
 
 function RequestMinTime(): React.ReactElement {
   const [minTime, setMinTime] = useLocalStorageState(
-    "__bookshelf_min_request_time__",
-    400
+    '__bookshelf_min_request_time__',
+    400,
   )
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -189,7 +187,7 @@ function RequestMinTime(): React.ReactElement {
     <div>
       <label htmlFor="minTime">Request min time (ms): </label>
       <input
-        css={{ marginLeft: 6 }}
+        css={{marginLeft: 6}}
         value={minTime}
         type="number"
         step="100"
@@ -204,8 +202,8 @@ function RequestMinTime(): React.ReactElement {
 
 function RequestVarTime(): React.ReactElement {
   const [varTime, setVarTime] = useLocalStorageState(
-    "__bookshelf_variable_request_time__",
-    400
+    '__bookshelf_variable_request_time__',
+    400,
   )
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -216,7 +214,7 @@ function RequestVarTime(): React.ReactElement {
     <div>
       <label htmlFor="varTime">Request variable time (ms): </label>
       <input
-        css={{ marginLeft: 6 }}
+        css={{marginLeft: 6}}
         value={varTime}
         type="number"
         step="100"
@@ -236,15 +234,15 @@ function RequestVarTime(): React.ReactElement {
  */
 function useLocalStorageState(
   key: string,
-  defaultValue: any = "",
-  { serialize = JSON.stringify, deserialize = JSON.parse } = {}
+  defaultValue: any = '',
+  {serialize = JSON.stringify, deserialize = JSON.parse} = {},
 ) {
   const [state, setState] = React.useState(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
     if (valueInLocalStorage) {
       return deserialize(valueInLocalStorage)
     }
-    return typeof defaultValue === "function" ? defaultValue() : defaultValue
+    return typeof defaultValue === 'function' ? defaultValue() : defaultValue
   })
 
   const prevKeyRef = React.useRef(key)
@@ -264,4 +262,4 @@ function useLocalStorageState(
   return [state, setState]
 }
 
-export { install }
+export {install}

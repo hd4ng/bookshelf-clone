@@ -1,5 +1,5 @@
 export type AsyncState<T> = {
-  status: "idle" | "pending" | "rejected" | "resolved"
+  status: 'idle' | 'pending' | 'rejected' | 'resolved'
   data: T | null
   error: Error | null
 }
