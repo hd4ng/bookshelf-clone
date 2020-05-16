@@ -1,7 +1,10 @@
 import {client} from './api-client'
+import {Book} from 'models/book'
 
-function search<T>({query}: {query: string}) {
-  return client<T>(`books?query=${encodeURIComponent(query)}`)
+function search({query}: {query: string}) {
+  return client<{
+    books: Book[]
+  }>(`books?query=${encodeURIComponent(query)}`)
 }
 
 export {search}
