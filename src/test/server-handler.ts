@@ -1,5 +1,6 @@
 import {rest, MockedRequest} from 'msw'
 import * as booksDB from './data/books'
+import * as usersDB from './data/users'
 import {ResponseComposition} from 'msw/lib/types/response'
 
 let sleep: () => Promise<any>
@@ -24,6 +25,36 @@ function ls(key: string, defaultVal: number) {
 const apiUrl = process.env.REACT_APP_API_URL
 
 const handlers = [
+  rest.get(`${apiUrl}/me`, async (req, res, ctx) => {
+    const user = getUser(req)
+    return res(ctx.json({user}))
+  }),
+
+  rest.post(`${apiUrl}/login`, async (req, res, ctx) => {
+    const {username, password} = req.body as {
+      username?: string
+      password?: string
+    }
+    const user = usersDB.authenticate({username, password})
+    return res(ctx.json({user}))
+  }),
+
+  rest.post(`${apiUrl}/register`, async (req, res, ctx) => {
+    const {username, password} = req.body as {
+      username?: string
+      password?: string
+    }
+    const userFields = {username, password}
+    usersDB.create(userFields)
+    let user
+    try {
+      user = usersDB.authenticate(userFields)
+    } catch (error) {
+      return res(ctx.status(400), ctx.json({message: error.message}))
+    }
+    return res(ctx.json({user}))
+  }),
+
   rest.get(`${apiUrl}/books`, async (req, res, ctx) => {
     if (!req.query.has('query')) {
       return ctx.fetch(req)
@@ -48,6 +79,11 @@ const handlers = [
     }
 
     return res(ctx.json({book}))
+  }),
+
+  rest.post(`${apiUrl}/profile`, async (req, res, ctx) => {
+    // here's where we'd actually send the report to some real data store
+    return res(ctx.json({success: true}))
   }),
 ].map(handler => {
   return {
@@ -80,6 +116,27 @@ function shouldFail(req: MockedRequest) {
   )
 
   return Math.random() < failureRate
+}
+
+const getToken = (req: MockedRequest) =>
+  req.headers.get('Authorization')?.replace('Bearer ', '')
+
+function getUser(req: MockedRequest) {
+  const token = getToken(req)
+  if (!token) {
+    const error: any = new Error('A token must be provided')
+    error.status = 401
+    throw error
+  }
+  let userId
+  try {
+    userId = atob(token)
+  } catch (e) {
+    const error: any = new Error('Invalid token. Please login again.')
+    error.status = 401
+    throw error
+  }
+  return usersDB.read(userId)
 }
 
 export {handlers}
