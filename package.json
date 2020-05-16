@@ -51,7 +51,7 @@
     "test:coverage": "npm run test -- --watchAll false --coverage",
     "lint": "eslint . --cache-location node_modules/.cache/eslint",
     "format": "prettier --write \"**/*.+(js|ts|tsx|json|css|md|mdx|html)\"",
-    "validate": "npm-run-all --parallel lint test:coverage"
+    "validate": "npm-run-all --parallel lint format test:coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
