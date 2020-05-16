@@ -23,7 +23,7 @@ function App() {
   return (
     <>
       {user ? (
-        <AuthenticatedApp logout={logout} />
+        <AuthenticatedApp user={user} logout={logout} />
       ) : (
         <UnauthenticatedApp login={login} register={register} />
       )}
