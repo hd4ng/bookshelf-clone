@@ -3,12 +3,12 @@ import './bootstrap'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import {DiscoverBooksScreen} from 'screens/discover'
+import {App} from './app'
 
 loadDevTools(() => {
   ReactDOM.render(
     <React.StrictMode>
-      <DiscoverBooksScreen />
+      <App />
     </React.StrictMode>,
     document.getElementById('root'),
   )
