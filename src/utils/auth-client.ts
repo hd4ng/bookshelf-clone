@@ -6,6 +6,14 @@ function handleUserResponse({user: {token, ...user}}: {user: User}) {
   return user
 }
 
+function getUser(): Promise<User | null> {
+  const token = getToken()
+  if (!token) {
+    return Promise.resolve(null)
+  }
+  return client<{user: User}>('me').then(data => data.user)
+}
+
 function login({username, password}: UserForm) {
   return client<{user: User}>('login', {body: {username, password}}).then(
     handleUserResponse,
@@ -22,4 +30,8 @@ function logout() {
   window.localStorage.removeItem(localStorageKey)
 }
 
-export {login, register, logout}
+function getToken() {
+  return window.localStorage.getItem(localStorageKey)
+}
+
+export {login, register, logout, getUser}

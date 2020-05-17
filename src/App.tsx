@@ -5,7 +5,11 @@ import {UnauthenticatedApp} from './unauthenticated-app'
 import {UserForm, User} from 'models/user'
 
 function App() {
-  const [user, setUser] = React.useState<User>()
+  const [user, setUser] = React.useState<User | null>()
+
+  React.useEffect(() => {
+    authClient.getUser().then(u => setUser(u))
+  }, [])
 
   function login(form: UserForm) {
     return authClient.login(form).then(u => setUser(u))
