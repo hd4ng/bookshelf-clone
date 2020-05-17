@@ -1,9 +1,7 @@
 import React from 'react'
+import {LogoProps} from './logo.api'
 
-const Logo: React.FC<{width: number; height: number}> = ({
-  width = '48',
-  height = '48',
-}) => {
+function Logo({width = 48, height = 48}: LogoProps) {
   return (
     <svg
       width={`${width}px`}
@@ -54,4 +52,4 @@ const Logo: React.FC<{width: number; height: number}> = ({
   )
 }
 
-export default Logo
+export {Logo}

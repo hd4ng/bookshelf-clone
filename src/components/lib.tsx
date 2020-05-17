@@ -1,3 +1,7 @@
+/** @jsx jsx */
+/** @jsxFrag React.Fragment */
+import {jsx} from '@emotion/core'
+
 import styled from '@emotion/styled/macro'
 import {keyframes} from '@emotion/core'
 import {FaSpinner} from 'react-icons/fa'
@@ -88,4 +92,80 @@ const FormGroup = styled.div({
   flexDirection: 'column',
 })
 
-export {Button, Input, CircleButton, Dialog, FormGroup, Spinner, BookListUL}
+function FullPageSpinner() {
+  return (
+    <div
+      css={{
+        fontsize: '4em',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Spinner />
+    </div>
+  )
+}
+
+const errorMessageVariants = {
+  stacked: {display: 'block'},
+  inline: {display: 'inline-block'},
+}
+
+function ErrorMessage({
+  error,
+  variant = 'stacked',
+  ...props
+}: {
+  error: Error
+  variant?: 'stacked' | 'inline'
+}) {
+  return (
+    <div
+      role="alert"
+      css={[{color: colors.danger}, errorMessageVariants[variant]]}
+    >
+      <span>There was an errror: </span>
+      <pre
+        css={[
+          {whiteSpace: 'break-spaces', margin: 0, marginBottom: -5},
+          errorMessageVariants[variant],
+        ]}
+      >
+        {error.message}
+      </pre>
+    </div>
+  )
+}
+
+function FullPageErrorFallback({error}: {error: Error}) {
+  return (
+    <div
+      css={{
+        color: colors.danger,
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignContent: 'center',
+      }}
+    >
+      <p>Uh oh... There's a problem. Try refreshing the app.</p>
+      <pre>{error.message}</pre>
+    </div>
+  )
+}
+
+export {
+  Button,
+  Input,
+  CircleButton,
+  Dialog,
+  FormGroup,
+  Spinner,
+  BookListUL,
+  FullPageSpinner,
+  ErrorMessage,
+  FullPageErrorFallback,
+}
