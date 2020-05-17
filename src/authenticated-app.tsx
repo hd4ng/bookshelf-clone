@@ -3,7 +3,7 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {Routes, Route, Link} from 'react-router-dom'
+import {Routes, Route, Link, useMatch} from 'react-router-dom'
 import {homepage} from '../package.json'
 import {Button} from 'components/lib'
 import * as mq from 'styles/media-queries'
@@ -64,23 +64,35 @@ function AuthenticatedApp({user, logout}: AuthenticatedAppProps) {
 }
 
 function NavLink({children, to}: React.PropsWithChildren<{to: string}>) {
+  const match = useMatch(to)
   return (
     <Link
-      css={{
-        display: 'block',
-        padding: '8px 15px 8px 10px',
-        margin: '5px 0',
-        width: '100%',
-        height: '100%',
-        color: colors.text,
-        borderRadius: 2,
-        borderLeft: '5px solid transparent',
-        ':hover': {
-          color: colors.indigo,
-          textDecoration: 'none',
-          backgroundColor: colors.gray10,
+      css={[
+        {
+          display: 'block',
+          padding: '8px 15px 8px 10px',
+          margin: '5px 0',
+          width: '100%',
+          height: '100%',
+          color: colors.text,
+          borderRadius: 2,
+          borderLeft: '5px solid transparent',
+          ':hover': {
+            color: colors.indigo,
+            textDecoration: 'none',
+            backgroundColor: colors.gray10,
+          },
         },
-      }}
+        match
+          ? {
+              borderColor: colors.indigo,
+              backgroundColor: colors.gray10,
+              ':hover': {
+                backgroundColor: colors.gray10,
+              },
+            }
+          : null,
+      ]}
       to={to}
     >
       {children}
