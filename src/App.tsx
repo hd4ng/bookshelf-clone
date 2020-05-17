@@ -8,11 +8,11 @@ function App() {
   const [user, setUser] = React.useState<User>()
 
   function login(form: UserForm) {
-    authClient.login(form).then(u => setUser(u))
+    return authClient.login(form).then(u => setUser(u))
   }
 
   function register(form: UserForm) {
-    authClient.register(form).then(u => setUser(u))
+    return authClient.register(form).then(u => setUser(u))
   }
 
   function logout() {

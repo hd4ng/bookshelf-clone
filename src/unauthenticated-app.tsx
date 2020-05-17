@@ -1,7 +1,6 @@
 /** @jsx jsx */
 /** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
-import 'bootstrap/dist/css/bootstrap-reboot.css'
 
 import React from 'react'
 import VisuallyHidden from '@reach/visually-hidden'
@@ -12,21 +11,22 @@ import {
   ModalOpenButton,
   ModalContents,
 } from 'components/modal'
-import Logo from 'components/logo'
-import {Button, CircleButton, FormGroup, Input, Spinner} from 'components/lib'
-import {UnauthenticatedAppProps} from 'unauthenticated-app.api'
+import {Logo} from 'components/logo'
+import {
+  Button,
+  CircleButton,
+  FormGroup,
+  Input,
+  Spinner,
+  ErrorMessage,
+} from 'components/lib'
 
+import {UnauthenticatedAppProps, LoginFormProps} from 'unauthenticated-app.api'
+import 'bootstrap/dist/css/bootstrap-reboot.css'
 import '@reach/dialog/styles.css'
+import {useAsync} from 'utils/use-async'
 
-const UnauthenticatedApp = (props: UnauthenticatedAppProps) => {
-  const login = (formData: {username: string; password: string}) => {
-    console.log('login', formData)
-  }
-
-  const register = (formData: {username: string; password: string}) => {
-    console.log('register', formData)
-  }
-
+function UnauthenticatedApp({login, register}: UnauthenticatedAppProps) {
   return (
     <div
       css={{
@@ -78,12 +78,8 @@ const UnauthenticatedApp = (props: UnauthenticatedAppProps) => {
   )
 }
 
-type LoginFormProps = {
-  onSubmit: ({username, password}: {username: string; password: string}) => void
-  submitButton: React.ReactElement
-}
-
-const LoginForm: React.FC<LoginFormProps> = ({onSubmit, submitButton}) => {
+function LoginForm({onSubmit, submitButton}: LoginFormProps) {
+  const {isLoading, isError, error, run} = useAsync()
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
 
@@ -91,10 +87,12 @@ const LoginForm: React.FC<LoginFormProps> = ({onSubmit, submitButton}) => {
     const username = elements.namedItem('username') as HTMLInputElement
     const password = elements.namedItem('password') as HTMLInputElement
 
-    onSubmit({
-      username: username.value,
-      password: password.value,
-    })
+    run(
+      onSubmit({
+        username: username.value,
+        password: password.value,
+      }),
+    )
   }
   return (
     <form
@@ -119,9 +117,16 @@ const LoginForm: React.FC<LoginFormProps> = ({onSubmit, submitButton}) => {
         <Input type="password" id="password" autoComplete="off" />
       </FormGroup>
       <div>
-        {React.cloneElement(submitButton, {type: 'submit'})}
-        <Spinner css={{marginLeft: 5}} />
+        {React.cloneElement(
+          submitButton,
+          {type: 'submit'},
+          ...(Array.isArray(submitButton.props.children)
+            ? submitButton.props.children
+            : [submitButton.props.children]),
+        )}
+        {isLoading ? <Spinner css={{marginLeft: 5}} /> : null}
       </div>
+      {isError ? <ErrorMessage error={error as Error} /> : null}
     </form>
   )
 }

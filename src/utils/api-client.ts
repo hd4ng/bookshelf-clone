@@ -19,7 +19,7 @@ async function client<T>(
   }
 
   const config: RequestInit = {
-    method: 'GET',
+    method: body ? 'POST' : 'GET',
     ...customConfig,
     headers: {...headers, ...customConfig.headers},
   }

@@ -7,13 +7,13 @@ function handleUserResponse({user: {token, ...user}}: {user: User}) {
 }
 
 function login({username, password}: UserForm) {
-  return client<{user: User}>('/login', {body: {username, password}}).then(
+  return client<{user: User}>('login', {body: {username, password}}).then(
     handleUserResponse,
   )
 }
 
 function register({username, password}: UserForm) {
-  return client<{user: User}>('/register', {body: {username, password}}).then(
+  return client<{user: User}>('register', {body: {username, password}}).then(
     handleUserResponse,
   )
 }
