@@ -1,7 +1,7 @@
 /** @jsx jsx */
 /** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
-
+import {Link} from 'react-router-dom'
 import * as mq from 'styles/media-queries'
 import * as colors from 'styles/colors'
 import {Book} from 'models/book'
@@ -19,9 +19,9 @@ const BookRow: React.FC<{book: Book}> = ({book}) => {
         position: 'relative',
       }}
     >
-      <div
+      <Link
         aria-labelledby={id}
-        // to={`/book/${book.id}`}
+        to={`/book/${book.id}`}
         css={{
           minHeight: 270,
           flexGrow: 2,
@@ -77,7 +77,7 @@ const BookRow: React.FC<{book: Book}> = ({book}) => {
           </div>
           <small>{book.synopsis.substring(0, 500)}...</small>
         </div>
-      </div>
+      </Link>
     </div>
   )
 }

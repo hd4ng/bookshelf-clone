@@ -7,4 +7,8 @@ function search({query}: {query: string}) {
   }>(`books?query=${encodeURIComponent(query)}`)
 }
 
-export {search}
+function read(bookId: string) {
+  return client<{book: Book}>(`books/${bookId}`)
+}
+
+export {search, read}
