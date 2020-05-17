@@ -19,6 +19,6 @@ branches:
     - master
 script:
   - npm i
-  - npm run test
+  - npm run test:coverage
 after_success:
   - npx codecov
