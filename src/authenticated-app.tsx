@@ -3,11 +3,21 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
+import {Routes, Route, Link} from 'react-router-dom'
+import {homepage} from '../package.json'
 import {Button} from 'components/lib'
 import * as mq from 'styles/media-queries'
+import * as colors from 'styles/colors'
 import {DiscoverBooksScreen} from 'screens/discover'
+import {BookScreen} from 'screens/book'
+import {NotFoundScreen} from 'screens/not-found'
 
 import {AuthenticatedAppProps} from 'authenticated-app.api'
+
+const fullUrl = new URL(homepage)
+const basename = fullUrl.pathname.endsWith('/')
+  ? fullUrl.pathname.slice(0, fullUrl.pathname.length - 1)
+  : fullUrl.pathname
 
 function AuthenticatedApp({user, logout}: AuthenticatedAppProps) {
   return (
@@ -42,9 +52,73 @@ function AuthenticatedApp({user, logout}: AuthenticatedAppProps) {
           },
         }}
       >
-        <DiscoverBooksScreen />
+        <div css={{position: 'relative'}}>
+          <Nav />
+        </div>
+        <main css={{width: '100%'}}>
+          <AppRoutes />
+        </main>
       </div>
     </React.Fragment>
+  )
+}
+
+function NavLink({children, to}: React.PropsWithChildren<{to: string}>) {
+  return (
+    <Link
+      css={{
+        display: 'block',
+        padding: '8px 15px 8px 10px',
+        margin: '5px 0',
+        width: '100%',
+        height: '100%',
+        color: colors.text,
+        borderRadius: 2,
+        borderLeft: '5px solid transparent',
+        ':hover': {
+          color: colors.indigo,
+          textDecoration: 'none',
+          backgroundColor: colors.gray10,
+        },
+      }}
+      to={to}
+    >
+      {children}
+    </Link>
+  )
+}
+
+function Nav() {
+  return (
+    <nav
+      css={{
+        position: 'sticky',
+        top: 4,
+        padding: '1em 1.5em',
+        border: `1px solid ${colors.gray10}`,
+        borderRadius: 3,
+        [mq.small]: {
+          position: 'static',
+          top: 'auto',
+        },
+      }}
+    >
+      <ul css={{listStyle: 'none', padding: 0}}>
+        <li>
+          <NavLink to="/discover">Discover</NavLink>
+        </li>
+      </ul>
+    </nav>
+  )
+}
+
+function AppRoutes() {
+  return (
+    <Routes basename={basename}>
+      <Route path="/discover" element={<DiscoverBooksScreen />} />
+      <Route path="book/:bookId" element={<BookScreen />} />
+      <Route path="*" element={<NotFoundScreen />} />
+    </Routes>
   )
 }
 

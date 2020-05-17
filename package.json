@@ -23,8 +23,8 @@
     "react-icons": "^3.10.0",
     "react-query": "^1.4.4",
     "react-query-devtools": "^1.1.5",
-    "react-router": "^6.0.0-alpha.4",
-    "react-router-dom": "^6.0.0-alpha.4",
+    "react-router": "^6.0.0-alpha.5",
+    "react-router-dom": "^6.0.0-alpha.5",
     "react-scripts": "^3.4.1",
     "stop-runaway-react-effects": "^2.0.0"
   },

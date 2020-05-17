@@ -1,4 +1,5 @@
 import React from 'react'
+import {BrowserRouter as Router} from 'react-router-dom'
 import * as authClient from 'utils/auth-client'
 import {AuthenticatedApp} from './authenticated-app'
 import {UnauthenticatedApp} from './unauthenticated-app'
@@ -45,7 +46,9 @@ function App() {
   return (
     <>
       {user ? (
-        <AuthenticatedApp user={user} logout={logout} />
+        <Router>
+          <AuthenticatedApp user={user} logout={logout} />
+        </Router>
       ) : (
         <UnauthenticatedApp login={login} register={register} />
       )}
