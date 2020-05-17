@@ -2,6 +2,7 @@
 /** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
+import {Link as RouterLink} from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import {keyframes} from '@emotion/core'
 import {FaSpinner} from 'react-icons/fa'
@@ -92,6 +93,14 @@ const FormGroup = styled.div({
   flexDirection: 'column',
 })
 
+const Link = styled(RouterLink)({
+  color: colors.indigo,
+  ':hover': {
+    color: colors.indigoDarken10,
+    textDecoration: 'underline',
+  },
+})
+
 function FullPageSpinner() {
   return (
     <div
@@ -170,4 +179,5 @@ export {
   FullPageSpinner,
   ErrorMessage,
   FullPageErrorFallback,
+  Link,
 }
