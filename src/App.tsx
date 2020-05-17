@@ -3,25 +3,43 @@ import * as authClient from 'utils/auth-client'
 import {AuthenticatedApp} from './authenticated-app'
 import {UnauthenticatedApp} from './unauthenticated-app'
 import {UserForm, User} from 'models/user'
+import {useAsync} from 'utils/use-async'
+import {FullPageSpinner, FullPageErrorFallback} from 'components/lib'
 
 function App() {
-  const [user, setUser] = React.useState<User | null>()
+  const {
+    data: user,
+    error,
+    isLoading,
+    isIdle,
+    isError,
+    run,
+    setData,
+  } = useAsync<User | null>()
 
   React.useEffect(() => {
-    authClient.getUser().then(u => setUser(u))
-  }, [])
+    run(authClient.getUser())
+  }, [run, setData])
 
   function login(form: UserForm) {
-    return authClient.login(form).then(u => setUser(u))
+    return authClient.login(form).then(u => setData(u))
   }
 
   function register(form: UserForm) {
-    return authClient.register(form).then(u => setUser(u))
+    return authClient.register(form).then(u => setData(u))
   }
 
   function logout() {
     authClient.logout()
-    setUser(undefined)
+    setData(null)
+  }
+
+  if (isLoading || isIdle) {
+    return <FullPageSpinner />
+  }
+
+  if (isError && error) {
+    return <FullPageErrorFallback error={error} />
   }
 
   return (

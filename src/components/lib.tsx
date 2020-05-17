@@ -96,11 +96,12 @@ function FullPageSpinner() {
   return (
     <div
       css={{
-        fontsize: '4em',
+        fontSize: '4em',
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <Spinner />
@@ -149,6 +150,7 @@ function FullPageErrorFallback({error}: {error: Error}) {
         flexDirection: 'column',
         justifyContent: 'center',
         alignContent: 'center',
+        textAlign: 'center',
       }}
     >
       <p>Uh oh... There's a problem. Try refreshing the app.</p>
