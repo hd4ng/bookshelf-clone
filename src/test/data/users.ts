@@ -35,14 +35,13 @@ function validateUserForm({
   password?: string
 }) {
   if (!username) {
-    const error: Error & {code?: number} = new Error('A username is required')
-    error.code = 400
+    const error: Error & {status?: number} = new Error('A username is required')
+    error.status = 400
     throw error
   }
   if (!password) {
     const error: any = new Error('A password is required')
-    // TODO: create new issue for Kent. He uses code and status for error number
-    error.code = 400
+    error.status = 400
     throw error
   }
 }
@@ -55,10 +54,14 @@ function authenticate({
   password?: string
 }) {
   validateUserForm({username, password})
-  const id = hash(username || '')
+  if (!username || !password) {
+    return
+  }
+
+  const id = hash(username)
   const user = users[id] || {}
-  if (user.passwordHash === hash(password || '')) {
-    return {...user, token: btoa(user.id)}
+  if (user.passwordHash === hash(password)) {
+    return {...user, token: btoa(user.id), passwordHash: undefined}
   }
   const error: any = new Error('Invalid username or password')
   error.status = 400
@@ -67,17 +70,20 @@ function authenticate({
 
 function create({username, password}: {username?: string; password?: string}) {
   validateUserForm({username, password})
-  const id = hash(username || '')
-  const passwordHash = hash(password || '')
+  if (!username || !password) {
+    return
+  }
+
+  const id = hash(username)
+  const passwordHash = hash(password)
   if (users[id]) {
     const error: any = new Error(
       `Cannot create a new user with the user name "${username}"`,
     )
-    // TODO: create new issue for Kent
     error.status = 400
     throw error
   }
-  users[id] = {id, username: username || '', passwordHash}
+  users[id] = {id, username: username, passwordHash}
   persist()
 }
 

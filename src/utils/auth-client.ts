@@ -26,12 +26,9 @@ function register({username, password}: UserForm) {
   )
 }
 
-function logout() {
-  window.localStorage.removeItem(localStorageKey)
-}
-
 function getToken() {
   return window.localStorage.getItem(localStorageKey)
 }
 
-export {login, register, logout, getUser}
+export {logout} from './api-client'
+export {login, register, getUser}

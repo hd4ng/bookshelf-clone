@@ -124,7 +124,9 @@ const getToken = (req: MockedRequest) =>
 function getUser(req: MockedRequest) {
   const token = getToken(req)
   if (!token) {
-    const error: any = new Error('A token must be provided')
+    const error: Error & {status?: number} = new Error(
+      'A token must be provided',
+    )
     error.status = 401
     throw error
   }
@@ -132,7 +134,9 @@ function getUser(req: MockedRequest) {
   try {
     userId = atob(token)
   } catch (e) {
-    const error: any = new Error('Invalid token. Please login again.')
+    const error: Error & {status?: number} = new Error(
+      'Invalid token. Please login again.',
+    )
     error.status = 401
     throw error
   }

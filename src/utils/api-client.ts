@@ -30,6 +30,12 @@ async function client<T>(
 
   return fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config).then(
     async res => {
+      if (res.status === 401) {
+        logout()
+        // refresh the page for them
+        window.location.assign(window.location.toString())
+        return
+      }
       const data = await res.json()
       if (res.ok) {
         return data
@@ -40,4 +46,8 @@ async function client<T>(
   )
 }
 
-export {client, localStorageKey}
+function logout() {
+  window.localStorage.removeItem(localStorageKey)
+}
+
+export {client, localStorageKey, logout}
