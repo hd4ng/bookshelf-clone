@@ -1,6 +1,7 @@
 import {rest, MockedRequest} from 'msw'
 import * as booksDB from './data/books'
 import * as usersDB from './data/users'
+import * as listItemsDB from './data/list-items'
 import {ResponseComposition} from 'msw/lib/types/response'
 
 let sleep: () => Promise<any>
@@ -79,6 +80,42 @@ const handlers = [
     }
 
     return res(ctx.json({book}))
+  }),
+
+  rest.get(`${apiUrl}/list-items`, async (req, res, ctx) => {
+    const user = getUser(req)
+    const list = listItemsDB.readByOwner(user.id)
+    const listItemsAndBooks = list.map(listItem => ({
+      ...listItem,
+      books: booksDB.read(listItem.bookId),
+    }))
+    return res(ctx.json({listItems: listItemsAndBooks}))
+  }),
+
+  rest.post(`${apiUrl}/list-items`, async (req, res, ctx) => {
+    const user = getUser(req)
+    const {bookId} = req.body as {bookId: string}
+    const listItem = listItemsDB.create({ownerId: user.id, bookId})
+    const book = booksDB.read(bookId as string)
+    return res(ctx.json({listItem: {...listItem, book}}))
+  }),
+
+  rest.put(`${apiUrl}/list-items`, async (req, res, ctx) => {
+    const user = getUser(req)
+    const {listItemId} = req.params as {listItemId: string}
+    const updates = req.body
+    listItemsDB.authorize(user.id, listItemId)
+    const updatedListItem = listItemsDB.update(listItemId, updates)
+    const book = booksDB.read(updatedListItem.bookId)
+    return res(ctx.json({listItem: {...updatedListItem, book}}))
+  }),
+
+  rest.delete(`${apiUrl}/list-items`, async (req, res, ctx) => {
+    const user = getUser(req)
+    const {listItemId} = req.params as {listItemId: string}
+    listItemsDB.authorize(user.id, listItemId)
+    listItemsDB.remove(listItemId)
+    return res(ctx.json({success: true}))
   }),
 
   rest.post(`${apiUrl}/profile`, async (req, res, ctx) => {
