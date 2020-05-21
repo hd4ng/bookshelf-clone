@@ -17,7 +17,7 @@ function useListItem(bookId: string) {
 }
 
 function useUpdateListItem() {
-  return useMutation((updates: Item) =>
+  return useMutation((updates: Pick<Item, 'id'> & Partial<Omit<Item, 'id'>>) =>
     listItemsClient.update(updates.id, updates),
   )
 }

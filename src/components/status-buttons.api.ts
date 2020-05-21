@@ -1,0 +1,12 @@
+import {Book} from 'models/book'
+
+export type TooltipButtonProps = {
+  label: string
+  highlight: string
+  onClick: () => Promise<any>
+  icon: React.ReactElement
+}
+
+export type StatusButtonProps = {
+  book: Book
+}
