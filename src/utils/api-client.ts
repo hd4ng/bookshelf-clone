@@ -1,3 +1,4 @@
+import {queryCache} from 'react-query'
 const localStorageKey = '__bookshelf_token__'
 
 async function client<T>(
@@ -47,6 +48,7 @@ async function client<T>(
 }
 
 function logout() {
+  queryCache.clear()
   window.localStorage.removeItem(localStorageKey)
 }
 
