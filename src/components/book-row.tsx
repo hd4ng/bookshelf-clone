@@ -2,12 +2,15 @@
 /** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 import {Link} from 'react-router-dom'
+import {useListItem} from 'utils/list-items'
 import * as mq from 'styles/media-queries'
 import * as colors from 'styles/colors'
 import {Book} from 'models/book'
+import {Rating} from './rating'
 
 const BookRow: React.FC<{book: Book}> = ({book}) => {
   const {title, author, coverImageUrl} = book
+  const listItem = useListItem(book.id)
   const id = `book-row-book-${book.id}`
 
   return (
@@ -62,6 +65,7 @@ const BookRow: React.FC<{book: Book}> = ({book}) => {
               >
                 {title}
               </h2>
+              {listItem?.finishDate ? <Rating listItem={listItem} /> : null}
             </div>
             <div css={{marginLeft: 10}}>
               <div
