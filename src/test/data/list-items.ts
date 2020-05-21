@@ -11,7 +11,6 @@ type Item = {
 }
 
 const listItemsKey = '__bookshelf_list_items__'
-// TODO: initialize with an empty array
 const listItems: {
   [key: string]: Item
 } = {}
