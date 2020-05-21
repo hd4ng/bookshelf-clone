@@ -87,7 +87,7 @@ const handlers = [
     const list = listItemsDB.readByOwner(user.id)
     const listItemsAndBooks = list.map(listItem => ({
       ...listItem,
-      books: booksDB.read(listItem.bookId),
+      book: booksDB.read(listItem.bookId),
     }))
     return res(ctx.json({listItems: listItemsAndBooks}))
   }),

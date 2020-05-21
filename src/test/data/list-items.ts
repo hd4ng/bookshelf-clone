@@ -1,14 +1,5 @@
 import * as booksDB from './books'
-
-type Item = {
-  id: string
-  ownerId: string
-  bookId: string
-  rating: number
-  notes: string
-  finishDate?: number
-  startDate: number
-}
+import {Item} from 'models/list-item'
 
 const listItemsKey = '__bookshelf_list_items__'
 const listItems: {
