@@ -20,7 +20,7 @@ import {
 import * as colors from 'styles/colors'
 import {useAsync} from 'utils/use-async'
 import {CircleButton, Spinner} from './lib'
-import {TooltipButtonProps, StatusButtonProps} from './status-buttons.api'
+import {TooltipButtonProps, StatusButtonsProps} from './status-buttons.api'
 
 function TooltipButton({
   label,
@@ -59,7 +59,7 @@ function TooltipButton({
   )
 }
 
-function StatusButton({book}: StatusButtonProps) {
+function StatusButtons({book}: StatusButtonsProps) {
   const listItem = useListItem(book.id)
   const [update] = useUpdateListItem()
   const [remove] = useRemoveListItem()
@@ -103,4 +103,4 @@ function StatusButton({book}: StatusButtonProps) {
   )
 }
 
-export {StatusButton}
+export {StatusButtons}

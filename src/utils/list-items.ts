@@ -28,7 +28,7 @@ function useRemoveListItem() {
 
 function useCreateListItem() {
   return useMutation(({bookId}: {bookId: string}) =>
-    listItemsClient.create(bookId),
+    listItemsClient.create({bookId}),
   )
 }
 

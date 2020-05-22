@@ -4,7 +4,7 @@ import {Item} from 'models/list-item'
 
 type ItemAndBook = Item & {book: Book}
 
-function create(listItemData: any) {
+function create(listItemData: {bookId: string}) {
   return client<{listItem: ItemAndBook}>('list-items', {body: listItemData})
 }
 
@@ -12,7 +12,10 @@ function read() {
   return client<{listItems: ItemAndBook[]}>('list-items')
 }
 
-function update(listItemId: string, updates: any) {
+function update(
+  listItemId: string,
+  updates: Pick<Item, 'id'> & Partial<Omit<Item, 'id'>>,
+) {
   return client<{listItem: ItemAndBook}>(`list-items/${listItemId}`, {
     method: 'PUT',
     body: updates,

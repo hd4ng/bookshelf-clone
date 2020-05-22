@@ -13,7 +13,7 @@ async function client<T>(
   // get the user's token from localstorage
   const token = window.localStorage.getItem(localStorageKey)
   const headers: {[key: string]: string} = {
-    'content-type': 'application/json',
+    'Content-type': 'application/json',
   }
   if (token) {
     headers.Authorization = `Bearer ${token}`
@@ -22,29 +22,32 @@ async function client<T>(
   const config: RequestInit = {
     method: body ? 'POST' : 'GET',
     ...customConfig,
-    headers: {...headers, ...customConfig.headers},
+    headers: {
+      ...headers,
+      ...customConfig.headers,
+    },
   }
 
   if (body) {
     config.body = JSON.stringify(body)
   }
 
-  return fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config).then(
-    async res => {
-      if (res.status === 401) {
+  return window
+    .fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config)
+    .then(async r => {
+      if (r.status === 401) {
         logout()
         // refresh the page for them
         window.location.assign(window.location.toString())
-        return
+        return Promise.reject({message: 'Please re-authenticate.'})
       }
-      const data = await res.json()
-      if (res.ok) {
+      const data = await r.json()
+      if (r.ok) {
         return data
       } else {
         return Promise.reject(data)
       }
-    },
-  )
+    })
 }
 
 function logout() {

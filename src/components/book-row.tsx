@@ -7,6 +7,7 @@ import * as mq from 'styles/media-queries'
 import * as colors from 'styles/colors'
 import {Book} from 'models/book'
 import {Rating} from './rating'
+import {StatusButtons} from './status-buttons'
 
 const BookRow: React.FC<{book: Book}> = ({book}) => {
   const {title, author, coverImageUrl} = book
@@ -82,6 +83,19 @@ const BookRow: React.FC<{book: Book}> = ({book}) => {
           <small>{book.synopsis.substring(0, 500)}...</small>
         </div>
       </Link>
+      <div
+        css={{
+          marginLeft: '20px',
+          position: 'absolute',
+          color: colors.gray80,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-around',
+          height: '100%',
+        }}
+      >
+        <StatusButtons book={book} />
+      </div>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import {setupWorker} from 'msw'
-import {handlers} from './server-handler'
+import {handlers} from './server-handlers'
 import {homepage} from '../../package.json'
 
 const fullUrl = new URL(homepage)
@@ -7,7 +7,7 @@ const fullUrl = new URL(homepage)
 async function startServer() {
   if (!navigator.serviceWorker) {
     if (
-      window.location.protocol !== 'https' &&
+      window.location.protocol !== 'https:' &&
       window.location.hostname !== 'localhost'
     ) {
       const currentURL = new URL(window.location.toString())
@@ -16,7 +16,6 @@ async function startServer() {
     }
     throw new Error('This app requires service worker support (over HTTPS).')
   }
-
   await setupWorker(...handlers).start({
     quiet: true,
     serviceWorker: {

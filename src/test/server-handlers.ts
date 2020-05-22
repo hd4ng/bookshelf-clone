@@ -94,13 +94,14 @@ const handlers = [
 
   rest.post(`${apiUrl}/list-items`, async (req, res, ctx) => {
     const user = getUser(req)
+
     const {bookId} = req.body as {bookId: string}
     const listItem = listItemsDB.create({ownerId: user.id, bookId})
     const book = booksDB.read(bookId as string)
     return res(ctx.json({listItem: {...listItem, book}}))
   }),
 
-  rest.put(`${apiUrl}/list-items`, async (req, res, ctx) => {
+  rest.put(`${apiUrl}/list-items/:listItemId`, async (req, res, ctx) => {
     const user = getUser(req)
     const {listItemId} = req.params as {listItemId: string}
     const updates = req.body
@@ -110,7 +111,7 @@ const handlers = [
     return res(ctx.json({listItem: {...updatedListItem, book}}))
   }),
 
-  rest.delete(`${apiUrl}/list-items`, async (req, res, ctx) => {
+  rest.delete(`${apiUrl}/list-items/:listItemId`, async (req, res, ctx) => {
     const user = getUser(req)
     const {listItemId} = req.params as {listItemId: string}
     listItemsDB.authorize(user.id, listItemId)

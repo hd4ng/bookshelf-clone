@@ -7,6 +7,6 @@ export type TooltipButtonProps = {
   icon: React.ReactElement
 }
 
-export type StatusButtonProps = {
+export type StatusButtonsProps = {
   book: Book
 }

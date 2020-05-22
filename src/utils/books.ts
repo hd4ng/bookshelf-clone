@@ -1,8 +1,9 @@
 import {useQuery} from 'react-query'
 import * as booksClient from './books-client'
 import {loadingBook} from './book-placeholder'
+import {Book} from 'models/book'
 
-const loadingBooks = Array.from({length: 10}, (v, index) => ({
+const loadingBooks: Book[] = Array.from({length: 10}, (v, index) => ({
   id: `loading-book-${index}`,
   ...loadingBook,
 }))

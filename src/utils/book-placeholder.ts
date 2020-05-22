@@ -6,6 +6,7 @@ const loadingBook = {
   coverImageUrl: bookPlaceholderSvg,
   publisher: 'Loading Publishing',
   synopsis: 'Loading...',
+  pageCount: 0,
   loadingBook: true,
 }
 

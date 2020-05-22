@@ -46,8 +46,8 @@ function authorize(userId: string, listItemId: string) {
 }
 
 function create({
-  bookId,
-  ownerId,
+  bookId = require('bookId') as any,
+  ownerId = require('ownerId') as any,
   rating = -1,
   notes = '',
   startDate = Date.now(),
@@ -78,6 +78,7 @@ function create({
     throw error
   }
   listItems[id] = {id, bookId, ownerId, rating, notes, finishDate, startDate}
+
   return read(id)
 }
 
