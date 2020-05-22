@@ -5,7 +5,7 @@ import {Item} from 'models/list-item'
 type ItemAndBook = Item & {book: Book}
 
 function create(listItemData: {bookId: string}) {
-  return client<{listItem: ItemAndBook}>('list-items', {body: listItemData})
+  return client<{listItem: ItemAndBook}>('list-items', {data: listItemData})
 }
 
 function read() {
@@ -18,7 +18,7 @@ function update(
 ) {
   return client<{listItem: ItemAndBook}>(`list-items/${listItemId}`, {
     method: 'PUT',
-    body: updates,
+    data: updates,
   })
 }
 

@@ -3,7 +3,11 @@ const localStorageKey = '__bookshelf_token__'
 
 async function client<T>(
   endpoint: RequestInfo,
-  {body, ...customConfig}: Omit<RequestInit, 'body'> & {body?: any} = {},
+  {
+    data,
+    headers: customHeaders,
+    ...customConfig
+  }: RequestInit & {data?: any} = {},
 ): Promise<T> {
   // Ignore this... It's the *only* thing we need to do thanks to the way we
   // handle fetch requests with the service worker. In your app you shouldn't
@@ -12,24 +16,22 @@ async function client<T>(
 
   // get the user's token from localstorage
   const token = window.localStorage.getItem(localStorageKey)
-  const headers: {[key: string]: string} = {
-    'Content-type': 'application/json',
-  }
-  if (token) {
-    headers.Authorization = `Bearer ${token}`
-  }
 
   const config: RequestInit = {
-    method: body ? 'POST' : 'GET',
-    ...customConfig,
+    method: data ? 'POST' : 'GET',
+    body: data ? JSON.stringify(data) : undefined,
     headers: {
-      ...headers,
-      ...customConfig.headers,
+      ...customHeaders,
     },
+    ...customConfig,
   }
 
-  if (body) {
-    config.body = JSON.stringify(body)
+  if (token) {
+    config.headers = {Authorization: `Bearer ${token}`}
+  }
+
+  if (data) {
+    config.headers = {'Content-type': 'application/json'}
   }
 
   return window
