@@ -21,17 +21,11 @@ async function client<T>(
     method: data ? 'POST' : 'GET',
     body: data ? JSON.stringify(data) : undefined,
     headers: {
+      Authorization: token ? `Bearer ${token}` : '',
+      'Content-type': data ? 'application/json' : '',
       ...customHeaders,
     },
     ...customConfig,
-  }
-
-  if (token) {
-    config.headers = {Authorization: `Bearer ${token}`}
-  }
-
-  if (data) {
-    config.headers = {'Content-type': 'application/json'}
   }
 
   return window
