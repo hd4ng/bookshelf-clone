@@ -14,6 +14,7 @@ import {NotFoundScreen} from 'screens/not-found'
 
 import {AuthenticatedAppProps} from 'authenticated-app.api'
 import {ReadingListScreen} from 'screens/reading-list'
+import {FinishedScreen} from 'screens/finished'
 
 const fullUrl = new URL(homepage)
 const basename = fullUrl.pathname.endsWith('/')
@@ -135,7 +136,7 @@ function AppRoutes() {
   return (
     <Routes basename={basename}>
       <Route path="/list" element={<ReadingListScreen />} />
-      <Route path="/finished" />
+      <Route path="/finished" element={<FinishedScreen />} />
       <Route path="/discover" element={<DiscoverBooksScreen />} />
       <Route path="book/:bookId" element={<BookScreen />} />
       <Route path="*" element={<NotFoundScreen />} />
