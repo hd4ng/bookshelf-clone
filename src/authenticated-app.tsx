@@ -13,6 +13,7 @@ import {BookScreen} from 'screens/book'
 import {NotFoundScreen} from 'screens/not-found'
 
 import {AuthenticatedAppProps} from 'authenticated-app.api'
+import {ReadingListScreen} from 'screens/reading-list'
 
 const fullUrl = new URL(homepage)
 const basename = fullUrl.pathname.endsWith('/')
@@ -117,6 +118,12 @@ function Nav() {
     >
       <ul css={{listStyle: 'none', padding: 0}}>
         <li>
+          <NavLink to="/list">Reading List</NavLink>
+        </li>
+        <li>
+          <NavLink to="/finished">Finished Book</NavLink>
+        </li>
+        <li>
           <NavLink to="/discover">Discover</NavLink>
         </li>
       </ul>
@@ -127,6 +134,8 @@ function Nav() {
 function AppRoutes() {
   return (
     <Routes basename={basename}>
+      <Route path="/list" element={<ReadingListScreen />} />
+      <Route path="/finished" />
       <Route path="/discover" element={<DiscoverBooksScreen />} />
       <Route path="book/:bookId" element={<BookScreen />} />
       <Route path="*" element={<NotFoundScreen />} />
