@@ -1,3 +1,5 @@
+import {Book} from './book'
+
 export type Item = {
   id: string
   bookId: string
@@ -7,3 +9,5 @@ export type Item = {
   startDate: number
   finishDate?: number
 }
+
+export type ItemAndBook = Item & {book: Book}

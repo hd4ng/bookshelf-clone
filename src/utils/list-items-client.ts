@@ -1,8 +1,5 @@
 import {client} from './api-client'
-import {Book} from 'models/book'
-import {Item} from 'models/list-item'
-
-type ItemAndBook = Item & {book: Book}
+import {Item, ItemAndBook} from 'models/list-item'
 
 function create(listItemData: {bookId: string}) {
   return client<{listItem: ItemAndBook}>('list-items', {data: listItemData})

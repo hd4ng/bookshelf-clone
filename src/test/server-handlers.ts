@@ -66,7 +66,12 @@ const handlers = [
     if (query) {
       matchingBooks = booksDB.query(query)
     } else {
-      matchingBooks = booksDB.readManyNotInList([]).slice(0, 10)
+      if (getToken(req)) {
+        // return a random assortment of 10 books not already in the user's list
+        matchingBooks = getBooksNotInUsersList(getUser(req).id).slice(0, 10)
+      } else {
+        matchingBooks = booksDB.readManyNotInList([]).slice(0, 10)
+      }
     }
 
     return res(ctx.json({books: matchingBooks}))
@@ -94,7 +99,6 @@ const handlers = [
 
   rest.post(`${apiUrl}/list-items`, async (req, res, ctx) => {
     const user = getUser(req)
-
     const {bookId} = req.body as {bookId: string}
     const listItem = listItemsDB.create({ownerId: user.id, bookId})
     const book = booksDB.read(bookId as string)
@@ -162,6 +166,7 @@ const getToken = (req: MockedRequest) =>
 function getUser(req: MockedRequest) {
   const token = getToken(req)
   if (!token) {
+    debugger
     const error: Error & {status?: number} = new Error(
       'A token must be provided',
     )
@@ -179,6 +184,13 @@ function getUser(req: MockedRequest) {
     throw error
   }
   return usersDB.read(userId)
+}
+
+function getBooksNotInUsersList(userId: string) {
+  const bookIdsInUsersList = listItemsDB
+    .readByOwner(userId)
+    .map(li => li.bookId)
+  return booksDB.readManyNotInList(bookIdsInUsersList)
 }
 
 export {handlers}
