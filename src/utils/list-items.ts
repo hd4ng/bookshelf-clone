@@ -1,14 +1,25 @@
 import {useQuery, useMutation, MutationOptions} from 'react-query'
 import * as listItemsClient from './list-items-client'
 import {Item} from 'models/list-item'
+import {setQueryDataForBook} from './books'
 
 function readListItems() {
   return listItemsClient.read().then(data => data.listItems)
 }
 
 function useListItems() {
-  const {data} = useQuery('list-items', readListItems)
-  return data ?? []
+  const {data: listItems} = useQuery({
+    queryKey: 'list-items',
+    queryFn: readListItems,
+    config: {
+      onSuccess: async listItems => {
+        for (const listItem of listItems) {
+          setQueryDataForBook(listItem.book)
+        }
+      },
+    },
+  })
+  return listItems ?? []
 }
 
 function useListItem(bookId: string) {
