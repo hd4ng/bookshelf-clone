@@ -14,8 +14,8 @@ import {formatDate} from 'utils/misc'
 import {useListItem, useUpdateListItem} from 'utils/list-items'
 import {Rating} from 'components/rating'
 import {StatusButtons} from 'components/status-buttons'
+import {Textarea, Spinner} from 'components/lib'
 import {ListItemTimeframeProps, NotesTextareaProps} from './book.api'
-import {Textarea} from 'components/lib'
 
 function BookScreen() {
   const {bookId} = useParams()
@@ -100,7 +100,7 @@ function ListItemTimeframe({listItem}: ListItemTimeframeProps) {
 }
 
 function NotesTextarea({listItem}: NotesTextareaProps) {
-  const [mutate, {error}] = useUpdateListItem({throwOnError: false})
+  const [mutate, {error, status}] = useUpdateListItem({throwOnError: false})
   const debounceMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
 
   function handleNotesChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -122,6 +122,7 @@ function NotesTextarea({listItem}: NotesTextareaProps) {
         >
           Notes
         </label>
+        {status === 'loading' ? <Spinner /> : null}
         {error ? (
           <span role="alert" css={{color: colors.danger, fontSize: '0.7em'}}>
             <span>There was an error:</span>{' '}

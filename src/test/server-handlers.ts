@@ -166,7 +166,6 @@ const getToken = (req: MockedRequest) =>
 function getUser(req: MockedRequest) {
   const token = getToken(req)
   if (!token) {
-    debugger
     const error: Error & {status?: number} = new Error(
       'A token must be provided',
     )
