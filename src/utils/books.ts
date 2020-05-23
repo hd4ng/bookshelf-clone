@@ -23,7 +23,7 @@ function getBook(queryKey: string, {bookId}: {bookId: string}) {
 
 function useBook(bookId: string) {
   const {data} = useQuery(['book', {bookId}], getBook)
-  return data ?? loadingBook
+  return data ?? {...loadingBook, id: 'loading-book'}
 }
 
 export {useBookSearch, useBook}

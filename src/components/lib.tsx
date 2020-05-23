@@ -69,12 +69,14 @@ const CircleButton = styled.button({
   cursor: 'pointer',
 })
 
-const Input = styled.input({
-  borderRadius: '3px',
-  border: `1px solid ${colors.gray10}`,
-  background: colors.gray,
+const inputStyles = {
+  border: '1px solid #f1f1f4',
+  background: '#f1f2f7',
   padding: '8px 12px',
-})
+}
+
+const Input = styled.input({borderRadius: '3px'}, inputStyles)
+const Textarea = styled.textarea(inputStyles)
 
 const Dialog = styled(ReachDialog)({
   maxWidth: '450px',
@@ -180,4 +182,5 @@ export {
   ErrorMessage,
   FullPageErrorFallback,
   Link,
+  Textarea,
 }

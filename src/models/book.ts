@@ -6,4 +6,5 @@ export type Book = {
   pageCount: number
   publisher: string
   synopsis: string
+  loadingBook?: boolean
 }
