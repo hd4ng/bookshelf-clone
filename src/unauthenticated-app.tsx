@@ -123,8 +123,8 @@ function LoginForm({onSubmit, submitButton}: LoginFormProps) {
           ...(Array.isArray(submitButton.props.children)
             ? submitButton.props.children
             : [submitButton.props.children]),
+          isLoading ? <Spinner css={{marginLeft: 5}} /> : null,
         )}
-        {isLoading ? <Spinner css={{marginLeft: 5}} /> : null}
       </div>
       {isError ? <ErrorMessage error={error as Error} /> : null}
     </form>
