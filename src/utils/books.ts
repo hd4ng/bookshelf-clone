@@ -1,4 +1,4 @@
-import {useQuery} from 'react-query'
+import {useQuery, queryCache} from 'react-query'
 import * as booksClient from './books-client'
 import {loadingBook} from './book-placeholder'
 import {Book} from 'models/book'
@@ -26,4 +26,9 @@ function useBook(bookId: string) {
   return data ?? {...loadingBook, id: 'loading-book'}
 }
 
-export {useBookSearch, useBook}
+async function refetchBookSearchQuery() {
+  queryCache.removeQueries('bookSearch')
+  await queryCache.prefetchQuery(['bookSearch', {query: ''}], searchBooks)
+}
+
+export {useBookSearch, useBook, refetchBookSearchQuery}

@@ -7,7 +7,7 @@ import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
 import {Input, BookListUL, Spinner} from 'components/lib'
 import {BookRow} from 'components/book-row'
-import {useBookSearch} from 'utils/books'
+import {useBookSearch, refetchBookSearchQuery} from 'utils/books'
 
 const DiscoverBooksScreen = () => {
   const [query, setQuery] = React.useState('')
@@ -17,6 +17,12 @@ const DiscoverBooksScreen = () => {
   const isLoading = status === 'loading'
   const isError = status === 'error'
   const isSuccess = status === 'success'
+
+  React.useEffect(() => {
+    return () => {
+      refetchBookSearchQuery()
+    }
+  }, [])
 
   function handleSearchClick(event: React.FormEvent) {
     event.preventDefault()
