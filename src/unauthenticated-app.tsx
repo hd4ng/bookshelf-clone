@@ -3,23 +3,10 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import VisuallyHidden from '@reach/visually-hidden'
 
-import {
-  Modal,
-  ModalDismissButton,
-  ModalOpenButton,
-  ModalContents,
-} from 'components/modal'
+import {Modal, ModalOpenButton, ModalContents} from 'components/modal'
 import {Logo} from 'components/logo'
-import {
-  Button,
-  CircleButton,
-  FormGroup,
-  Input,
-  Spinner,
-  ErrorMessage,
-} from 'components/lib'
+import {Button, FormGroup, Input, Spinner, ErrorMessage} from 'components/lib'
 
 import {LoginFormProps} from 'unauthenticated-app.api'
 import 'bootstrap/dist/css/bootstrap-reboot.css'
@@ -53,9 +40,7 @@ function UnauthenticatedApp() {
           <ModalOpenButton>
             <Button variant="primary">Login</Button>
           </ModalOpenButton>
-          <ModalContents aria-label="Login form">
-            {circleDismissButton}
-            <h3 css={{textAlign: 'center', fontSize: '2em'}}>Login</h3>
+          <ModalContents aria-label="Login form" title="Login">
             <LoginForm
               onSubmit={login}
               submitButton={<Button variant="primary">Login</Button>}
@@ -66,9 +51,7 @@ function UnauthenticatedApp() {
           <ModalOpenButton>
             <Button variant="secondary">Register</Button>
           </ModalOpenButton>
-          <ModalContents aria-label="Registration form">
-            {circleDismissButton}
-            <h3 css={{textAlign: 'center', fontSize: '2em'}}>Register</h3>
+          <ModalContents aria-label="Registration form" title="Register">
             <LoginForm
               onSubmit={register}
               submitButton={<Button variant="secondary">Register</Button>}
@@ -132,17 +115,5 @@ function LoginForm({onSubmit, submitButton}: LoginFormProps) {
     </form>
   )
 }
-
-const circleDismissButton = (
-  <div css={{display: 'flex', justifyContent: 'flex-end'}}>
-    {' '}
-    <ModalDismissButton>
-      <CircleButton>
-        <VisuallyHidden>Close</VisuallyHidden>
-        <span aria-hidden>×</span>
-      </CircleButton>
-    </ModalDismissButton>
-  </div>
-)
 
 export {UnauthenticatedApp}

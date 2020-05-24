@@ -1,3 +1,7 @@
+/** @jsx jsx */
+/** @jsxFrag React.Fragment */
+import {jsx} from '@emotion/core'
+
 import React, {
   SetStateAction,
   Dispatch,
@@ -6,7 +10,8 @@ import React, {
   useContext,
   ReactElement,
 } from 'react'
-import {Dialog} from './lib'
+import {Dialog, CircleButton} from './lib'
+import VisuallyHidden from '@reach/visually-hidden'
 
 const callAll = (...fns: Function[]) => (...args: any[]) =>
   fns.forEach(fn => fn && fn(...args))
@@ -40,11 +45,38 @@ const ModalOpenButton: React.FC<{children: ReactElement}> = ({
   })
 }
 
-const ModalContents: React.FC = props => {
+const ModalContentsBase: React.FC = props => {
   const [isOpen, setIsOpen] = useContext(ModalContext) as IModalContext
   return (
     <Dialog isOpen={isOpen} onDismiss={() => setIsOpen(false)} {...props} />
   )
 }
 
-export {Modal, ModalDismissButton, ModalOpenButton, ModalContents}
+function ModalContents({
+  title,
+  children,
+  ...props
+}: React.PropsWithChildren<{title: string}>) {
+  return (
+    <ModalContentsBase {...props}>
+      <div css={{display: 'flex', justifyContent: 'flex-end'}}>
+        <ModalDismissButton>
+          <CircleButton>
+            <VisuallyHidden>Close</VisuallyHidden>
+            <span aria-hidden>x</span>
+          </CircleButton>
+        </ModalDismissButton>
+      </div>
+      <h3 css={{textAlign: 'center', fontSize: '2em'}}>{title}</h3>
+      {children}
+    </ModalContentsBase>
+  )
+}
+
+export {
+  Modal,
+  ModalDismissButton,
+  ModalOpenButton,
+  ModalContents,
+  ModalContentsBase,
+}
