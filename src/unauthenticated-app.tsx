@@ -116,4 +116,4 @@ function LoginForm({onSubmit, submitButton}: LoginFormProps) {
   )
 }
 
-export {UnauthenticatedApp}
+export default UnauthenticatedApp
