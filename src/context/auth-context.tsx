@@ -29,18 +29,34 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
     run(authClient.getUser())
   }, [run])
 
-  function login(form: UserForm) {
-    return authClient.login(form).then(user => setData(user))
-  }
+  const login = React.useCallback(
+    function login(form: UserForm) {
+      return authClient.login(form).then(user => setData(user))
+    },
+    [setData],
+  )
 
-  function register(form: UserForm) {
-    return authClient.register(form).then(user => setData(user))
-  }
+  const register = React.useCallback(
+    function register(form: UserForm) {
+      return authClient.register(form).then(user => setData(user))
+    },
+    [setData],
+  )
 
-  function logout() {
-    authClient.logout()
-    setData(null)
-  }
+  const logout = React.useCallback(
+    function logout() {
+      authClient.logout()
+      setData(null)
+    },
+    [setData],
+  )
+
+  const value = React.useMemo(() => ({user, login, register, logout}), [
+    login,
+    logout,
+    register,
+    user,
+  ])
 
   if (isLoading || isIdle) {
     return <FullPageSpinner />
@@ -51,7 +67,6 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
   }
 
   if (isSuccess) {
-    const value = {user, login, register, logout}
     return <AuthContext.Provider value={value} {...props} />
   }
 
