@@ -3,6 +3,7 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
+import {bootstrapAppData} from 'utils/bootstrap'
 import * as authClient from 'utils/auth-client'
 import {useAsync} from 'utils/use-async'
 import {FullPageErrorFallback, FullPageSpinner} from 'components/lib'
@@ -14,7 +15,7 @@ AuthContext.displayName = 'AuthContext'
 
 function AuthProvider(props: React.PropsWithChildren<{}>) {
   const {
-    data: user,
+    data,
     error,
     isLoading,
     isIdle,
@@ -23,22 +24,22 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
     run,
     setData,
     status,
-  } = useAsync<User | null>()
+  } = useAsync<{user: User | null}>()
 
   React.useEffect(() => {
-    run(authClient.getUser())
+    run(bootstrapAppData())
   }, [run])
 
   const login = React.useCallback(
     function login(form: UserForm) {
-      return authClient.login(form).then(user => setData(user))
+      return authClient.login(form).then(user => setData({user}))
     },
     [setData],
   )
 
   const register = React.useCallback(
     function register(form: UserForm) {
-      return authClient.register(form).then(user => setData(user))
+      return authClient.register(form).then(user => setData({user}))
     },
     [setData],
   )
@@ -46,11 +47,12 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
   const logout = React.useCallback(
     function logout() {
       authClient.logout()
-      setData(null)
+      setData({user: null})
     },
     [setData],
   )
 
+  const user = data?.user ?? null
   const value = React.useMemo(() => ({user, login, register, logout}), [
     login,
     logout,
