@@ -11,3 +11,5 @@ export type Item = {
 }
 
 export type ItemAndBook = Item & {book: Book}
+
+export type UpdatedItem = Pick<Item, 'id'> & Partial<Omit<Item, 'id'>>

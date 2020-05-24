@@ -1,5 +1,5 @@
 import {client} from './api-client'
-import {Item, ItemAndBook} from 'models/list-item'
+import {ItemAndBook, UpdatedItem} from 'models/list-item'
 
 function create(listItemData: {bookId: string}) {
   return client<{listItem: ItemAndBook}>('list-items', {data: listItemData})
@@ -9,10 +9,7 @@ function read() {
   return client<{listItems: ItemAndBook[]}>('list-items')
 }
 
-function update(
-  listItemId: string,
-  updates: Pick<Item, 'id'> & Partial<Omit<Item, 'id'>>,
-) {
+function update(listItemId: string, updates: UpdatedItem) {
   return client<{listItem: ItemAndBook}>(`list-items/${listItemId}`, {
     method: 'PUT',
     data: updates,
