@@ -7,7 +7,7 @@ export type Item = {
   rating: number
   notes: string
   startDate: number
-  finishDate?: number
+  finishDate?: number | null
 }
 
 export type ItemAndBook = Item & {book: Book}

@@ -72,7 +72,7 @@ function StatusButtons({book}: StatusButtonsProps) {
           <TooltipButton
             label="Unmark as read"
             highlight={colors.yellow}
-            onClick={() => update({id: listItem.id, finishDate: undefined})}
+            onClick={() => update({id: listItem.id, finishDate: null})}
             icon={<FaBook />}
           />
         ) : (
