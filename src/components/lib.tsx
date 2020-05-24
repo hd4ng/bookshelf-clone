@@ -130,7 +130,7 @@ function ErrorMessage({
   variant = 'stacked',
   ...props
 }: {
-  error: Error
+  error?: Error
   variant?: 'stacked' | 'inline'
 }) {
   return (
@@ -145,13 +145,13 @@ function ErrorMessage({
           errorMessageVariants[variant],
         ]}
       >
-        {error.message}
+        {error?.message}
       </pre>
     </div>
   )
 }
 
-function FullPageErrorFallback({error}: {error: Error}) {
+function FullPageErrorFallback({error}: {error?: Error}) {
   return (
     <div
       css={{
@@ -165,7 +165,7 @@ function FullPageErrorFallback({error}: {error: Error}) {
       }}
     >
       <p>Uh oh... There's a problem. Try refreshing the app.</p>
-      <pre>{error.message}</pre>
+      <pre>{error?.message}</pre>
     </div>
   )
 }

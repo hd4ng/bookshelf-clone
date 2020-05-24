@@ -5,7 +5,8 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import {Routes, Route, Link, useMatch} from 'react-router-dom'
 import {homepage} from '../package.json'
-import {Button} from 'components/lib'
+import {Button, FullPageErrorFallback, ErrorMessage} from 'components/lib'
+import {ErrorBoundary} from 'react-error-boundary'
 import * as mq from 'styles/media-queries'
 import * as colors from 'styles/colors'
 import {DiscoverBooksScreen} from 'screens/discover'
@@ -21,10 +22,25 @@ const basename = fullUrl.pathname.endsWith('/')
   ? fullUrl.pathname.slice(0, fullUrl.pathname.length - 1)
   : fullUrl.pathname
 
+function ErrorFallback({error}: {error?: Error}) {
+  return (
+    <ErrorMessage
+      error={error}
+      css={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    />
+  )
+}
+
 function AuthenticatedApp() {
   const {user, logout} = useAuth()
   return (
-    <React.Fragment>
+    <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
       <div
         css={{
           display: 'flex',
@@ -59,10 +75,12 @@ function AuthenticatedApp() {
           <Nav />
         </div>
         <main css={{width: '100%'}}>
-          <AppRoutes />
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <AppRoutes />
+          </ErrorBoundary>
         </main>
       </div>
-    </React.Fragment>
+    </ErrorBoundary>
   )
 }
 
