@@ -4,6 +4,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {ReactQueryConfigProvider, ReactQueryProviderConfig} from 'react-query'
 import {App} from './app'
+import {AuthProvider} from 'context/auth-context'
 
 const queryConfig: ReactQueryProviderConfig = {
   useErrorBoundary: true,
@@ -14,7 +15,9 @@ loadDevTools(() => {
   ReactDOM.render(
     <React.StrictMode>
       <ReactQueryConfigProvider config={queryConfig}>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </ReactQueryConfigProvider>
     </React.StrictMode>,
     document.getElementById('root'),

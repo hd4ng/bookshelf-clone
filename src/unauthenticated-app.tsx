@@ -21,12 +21,14 @@ import {
   ErrorMessage,
 } from 'components/lib'
 
-import {UnauthenticatedAppProps, LoginFormProps} from 'unauthenticated-app.api'
+import {LoginFormProps} from 'unauthenticated-app.api'
 import 'bootstrap/dist/css/bootstrap-reboot.css'
 import '@reach/dialog/styles.css'
 import {useAsync} from 'utils/use-async'
+import {useAuth} from 'context/auth-context'
 
-function UnauthenticatedApp({login, register}: UnauthenticatedAppProps) {
+function UnauthenticatedApp() {
+  const {login, register} = useAuth()
   return (
     <div
       css={{

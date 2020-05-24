@@ -12,16 +12,17 @@ import {DiscoverBooksScreen} from 'screens/discover'
 import {BookScreen} from 'screens/book'
 import {NotFoundScreen} from 'screens/not-found'
 
-import {AuthenticatedAppProps} from 'authenticated-app.api'
 import {ReadingListScreen} from 'screens/reading-list'
 import {FinishedScreen} from 'screens/finished'
+import {useAuth} from 'context/auth-context'
 
 const fullUrl = new URL(homepage)
 const basename = fullUrl.pathname.endsWith('/')
   ? fullUrl.pathname.slice(0, fullUrl.pathname.length - 1)
   : fullUrl.pathname
 
-function AuthenticatedApp({user, logout}: AuthenticatedAppProps) {
+function AuthenticatedApp() {
+  const {user, logout} = useAuth()
   return (
     <React.Fragment>
       <div

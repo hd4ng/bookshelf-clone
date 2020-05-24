@@ -50,7 +50,7 @@ function AuthProvider(props: React.PropsWithChildren<{}>) {
     return <FullPageErrorFallback error={error as Error} />
   }
 
-  if (isSuccess) {
+  if (isSuccess && user) {
     const value = {user, login, register, logout}
     return <AuthContext.Provider value={value} {...props} />
   }
